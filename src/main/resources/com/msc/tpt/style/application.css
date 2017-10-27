@@ -1,0 +1,24 @@
+.main-page-button
+{
+	-fx-font-family: FontAwesome;
+	-fx-alignment: center_left;
+	-fx-font-size: 2.5em;
+	-fx-pref-width: 40em;
+	-fx-border-width: 0.0;
+	-fx-background-color: white;
+}
+
+.main-page-button:hover
+{
+	-fx-background-color: lightblue;
+}
+
+.main-page-button:armed
+{
+	-fx-background-color: #4355DF;
+}
+
+.main-background-panel
+{
+	-fx-background-color: #504848;
+}
