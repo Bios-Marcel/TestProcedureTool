@@ -1,26 +1,68 @@
 package com.msc.tpt;
 
 import java.io.IOException;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.msc.tpt.view.View;
 
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 /**
- * Handles basic view unspecific GUI control.
+ * Handles non-viewspecific UI Actions.
  *
  * @author Marcel
  * @since 27.10.2017
  */
 public final class AppController
 {
-	private static final Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+	private static final Logger			logger		= Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+	private static final AppController	instance	= new AppController();
+	private Stage						primaryStage;
 
-	private static Stage primaryStage;
+	@FXML private String lastTitle;
+
+	@FXML private Optional<Pane>	currentView	= Optional.empty();
+	@FXML private Pane				settingsPane;
+	@FXML private Pane				homePane;
+
+	@FXML private StackPane contentPane;
+
+	@FXML private Button		newTestProcedurePlanButton;
+	@FXML private MenuButton	openTestProcedurePlanButton;
+	@FXML private MenuButton	saveTestProcedurePlanButton;
+
+	@FXML private Label			titleLabel;
+	@FXML private ToggleButton	settingsButton;
+
+	public static AppController getInstance()
+	{
+		return Objects.requireNonNull(instance);
+	}
+
+	/**
+	 * Sets the scenes {@link EventHandler} for {@link KeyEvent}, resulting in the former
+	 * {@link EventHandler} to be removed.
+	 *
+	 * @param keyEventHandler the new handler
+	 */
+	public void setGlobalKeyListener(final EventHandler<KeyEvent> keyEventHandler)
+	{
+		primaryStage.getScene().setOnKeyPressed(keyEventHandler);
+	}
 
 	/**
 	 * Sets the primary state for furhter interaction.
@@ -28,7 +70,7 @@ public final class AppController
 	 * @param stage
 	 *            {@link Stage} that will be set
 	 */
-	public static final void setStage(final Stage stage)
+	public final void setStage(final Stage stage)
 	{
 		primaryStage = stage;
 	}
@@ -36,10 +78,55 @@ public final class AppController
 	/**
 	 * Initially launches the GUI.
 	 */
-	public static final void start()
+	public final void start()
 	{
-		loadView(View.START_PAGE);
+		logger.info("Loading view mainview.");
+
+		final FXMLLoader loader = new FXMLLoader();
+		loader.setResources(Main.language);
+
+		try
+		{
+			loader.setController(this);
+			loader.setLocation(AppController.class.getResource("/com/msc/tpt/fxml/Main.fxml"));
+
+			final Parent toLoad = loader.load();
+			toLoad.getStylesheets().setAll("/com/msc/tpt/style/application.css");
+			primaryStage.getScene().setRoot(toLoad);
+
+			newTestProcedurePlanButton.setText("\uf0fe");
+			openTestProcedurePlanButton.setText("\uf07c");
+			saveTestProcedurePlanButton.setText("\uf0a0");
+
+			settingsButton.setText("\uf013");
+
+			setTitle(Main.getString("main.title"));
+		}
+		catch (final IOException exception)
+		{
+			logger.log(Level.SEVERE, "Error while loading mainview.", exception);
+		}
+
+		homePane = getView(View.HOME);
+		settingsPane = getView(View.SETTINGS);
+
+		settingsButton.selectedProperty().addListener((observable, oldVal, newVal) -> showSettings(newVal));
+
+		contentPane.getChildren().add(settingsPane);
+		contentPane.getChildren().add(homePane);
+
 		primaryStage.show();
+	}
+
+	/**
+	 * Sets the title in the top bar.
+	 *
+	 * @param title
+	 */
+	public void setTitle(final String title)
+	{
+		lastTitle = titleLabel.getText();
+		titleLabel.setText(title);
 	}
 
 	/**
@@ -48,9 +135,24 @@ public final class AppController
 	 * @param view
 	 *            the view to be loaded
 	 */
-	public static void loadView(final View view)
+	public void loadView(final View view)
 	{
 		logger.info("Loading view: '" + view + "'");
+
+		currentView.ifPresent(viewToRemove -> contentPane.getChildren().remove(viewToRemove));
+		currentView = Optional.of(getView(view));
+		currentView.ifPresent(viewToAdd ->
+		{
+			contentPane.getChildren().add(viewToAdd);
+			settingsButton.setDisable(false);
+			settingsButton.setSelected(false);
+		});
+
+	}
+
+	private Pane getView(final View view)
+	{
+		logger.info("Retrieving view: '" + view + "'");
 
 		final FXMLLoader loader = new FXMLLoader();
 		loader.setResources(Main.language);
@@ -60,13 +162,29 @@ public final class AppController
 			loader.setController(view.getControllerType().newInstance());
 			loader.setLocation(AppController.class.getResource(view.getFXMLPath()));
 
-			final Parent toLoad = loader.load();
+			final Pane toLoad = loader.load();
 			toLoad.getStylesheets().setAll(view.getStylesheetPath());
-			primaryStage.getScene().setRoot(toLoad);
+			return toLoad;
 		}
 		catch (final IOException | InstantiationException | IllegalAccessException exception)
 		{
 			logger.log(Level.SEVERE, "Error while loading view: '" + view + "'", exception);
+			throw new RuntimeException(exception);
+		}
+	}
+
+	private void showSettings(final boolean show)
+	{
+		if (show)
+		{
+			settingsPane.toFront();
+			setTitle(Main.getString("settings.title"));
+		}
+		else
+		{
+			settingsPane.toBack();
+			currentView.ifPresent(Pane::toFront);
+			setTitle(lastTitle);
 		}
 	}
 }

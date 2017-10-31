@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitMenuButton?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+	<children>
+		<HBox fx:id="lefttoppart" maxWidth="1.7976931348623157E308">
+			<children>
+				<HBox minWidth="${lefttoppart.width*0.25}" spacing="5.0" styleClass="menu-pane-side">
+					<children>
+						<Button fx:id="newTestProcedurePlanButton" mnemonicParsing="false" styleClass="main-bar-button" />
+						<SplitMenuButton fx:id="openTestProcedurePlanButton" mnemonicParsing="false" styleClass="main-bar-button">
+							<items>
+								<MenuItem mnemonicParsing="false" text="%menu.open" />
+							</items>
+						</SplitMenuButton>
+						<SplitMenuButton fx:id="saveTestProcedurePlanButton" mnemonicParsing="false" styleClass="main-bar-button">
+							<items>
+								<MenuItem mnemonicParsing="false" text="%menu.save" />
+								<MenuItem mnemonicParsing="false" text="%menu.saveas" />
+							</items>
+						</SplitMenuButton>
+					</children>
+				</HBox>
+				<Label fx:id="titleLabel" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main-bar-label" textAlignment="CENTER" HBox.hgrow="ALWAYS" />
+				<HBox alignment="TOP_RIGHT" minWidth="${lefttoppart.width*0.25}" nodeOrientation="LEFT_TO_RIGHT" styleClass="menu-pane-side">
+					<children>
+						<ToggleButton fx:id="settingsButton" mnemonicParsing="false" styleClass="main-bar-button">
+							<tooltip>
+								<Tooltip text="%main.settingsbutton.tooltip" />
+							</tooltip>
+						</ToggleButton>
+					</children>
+				</HBox>
+			</children>
+			<VBox.margin>
+				<Insets />
+			</VBox.margin>
+			<padding>
+				<Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+			</padding>
+		</HBox>
+		<StackPane fx:id="contentPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS" />
+	</children>
+</VBox>

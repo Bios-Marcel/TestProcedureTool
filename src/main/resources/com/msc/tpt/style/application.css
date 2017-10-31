@@ -22,3 +22,47 @@
 {
 	-fx-background-color: #504848;
 }
+
+/**
+ * Top Bar
+ */
+
+.main-bar-button
+{
+	-fx-font-family: FontAwesome;
+	-fx-font-size: 1.5em;
+}
+
+.main-bar-label
+{
+	-fx-font-family: FontAwesome;
+	-fx-font-size: 1.5em;
+}
+
+/**
+ * Bottom Bar Procedure Plan
+ */
+
+.bottom-bar-button
+{
+	-fx-font-family: FontAwesome;
+	-fx-font-size: 1.5em;	
+}
+
+/* 
+ * Settings
+ */
+
+.setting-pane
+{
+	-fx-background-color: white;
+}
+
+/*
+ * General
+ */
+ 
+ .tooltip
+ {
+ 	-fx-font-size: 1em;
+ }

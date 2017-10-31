@@ -40,11 +40,8 @@ public class Main extends Application
 
 		try
 		{
-			// Create necessery files and folders
 			new File(PathConstants.TPT_HOME).mkdir();
-
 			TPTLogger.setup();
-
 			Thread.setDefaultUncaughtExceptionHandler(new TPTUncaughtExceptionHandler());
 
 			// Load language files
@@ -52,10 +49,10 @@ public class Main extends Application
 			language = ResourceBundle.getBundle(PathConstants.LANGUAGE, locale);
 
 			Font.loadFont(StartPageController.class.getResource(PathConstants.FONT_AWESOME).toExternalForm(), 12);
-			prepareScene(primaryStage);
+			prepareStageAndScene(primaryStage);
 
-			AppController.setStage(primaryStage);
-			AppController.start();
+			AppController.getInstance().setStage(primaryStage);
+			AppController.getInstance().start();
 		}
 		catch (final Exception exception)
 		{
@@ -68,11 +65,13 @@ public class Main extends Application
 	 *
 	 * @param primaryStage stage to be configured
 	 */
-	private void prepareScene(final Stage primaryStage)
+	private void prepareStageAndScene(final Stage primaryStage)
 	{
 		primaryStage.setScene(new Scene(new Pane()));
 		primaryStage.getIcons().add(new Image(Main.class.getResource(PathConstants.APP_ICON).toExternalForm()));
 		primaryStage.setTitle(getString("app.title"));
+		primaryStage.setMinWidth(600);
+		primaryStage.setMinHeight(400);
 	}
 
 	/**

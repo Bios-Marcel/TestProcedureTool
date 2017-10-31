@@ -11,7 +11,9 @@ import java.util.concurrent.ConcurrentHashMap;
 @SuppressWarnings("javadoc")
 public enum View
 {
-	START_PAGE(0, StartPageController.class, "/com/msc/tpt/fxml/StartPage.fxml", "/com/msc/tpt/style/application.css");
+	HOME(0, StartPageController.class, "/com/msc/tpt/fxml/StartPage.fxml", "/com/msc/tpt/style/application.css"),
+	SETTINGS(1, SettingsController.class, "/com/msc/tpt/fxml/Settings.fxml", "/com/msc/tpt/style/application.css"),
+	CREATE_NEW(2, CreateNewController.class, "/com/msc/tpt/fxml/CreateNew.fxml", "/com/msc/tpt/style/application.css");
 
 	private final int						id;
 	private Class<? extends ViewController>	controllerType;

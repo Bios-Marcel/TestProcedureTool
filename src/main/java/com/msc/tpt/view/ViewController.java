@@ -12,4 +12,9 @@ public interface ViewController
 	 * Automatically called when initializing the controller.
 	 */
 	public void initialize();
+
+	/**
+	 * Called when the view is being closed.
+	 */
+	public void close();
 }
