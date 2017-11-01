@@ -26,15 +26,16 @@ import javafx.stage.Stage;
  */
 public class Main extends Application
 {
-	private static final Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+	private static final Logger	logger	= Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
-	static ResourceBundle language;
+	static ResourceBundle		language;
 
 	@Override
 	public void start(final Stage primaryStage)
 	{
 		/*
-		 * At this point, no exceptions can be caught by the uncaught exceptionhandler, so all of
+		 * At this point, no exceptions can be caught by the uncaught exceptionhandler,
+		 * so all of
 		 * the things are executed within the try-catch phrase
 		 */
 
@@ -63,7 +64,8 @@ public class Main extends Application
 	/**
 	 * Performs a onetime setup on the given {@link Stage}.
 	 *
-	 * @param primaryStage stage to be configured
+	 * @param primaryStage
+	 *            stage to be configured
 	 */
 	private void prepareStageAndScene(final Stage primaryStage)
 	{
@@ -75,12 +77,17 @@ public class Main extends Application
 	}
 
 	/**
-	 * @param args currently unused
+	 * @param args
+	 *            currently unused
 	 */
 	public static void main(final String[] args)
 	{
-		// Fixes font rendering TODO(MSC) See if this is the case on other machines aswell
-		System.setProperty("prism.lcdtext", "false");
+		/*
+		 * Fixes font rendering TODO(MSC) See if this is the case on other machines
+		 * aswell. On my Ubuntu Laptop, this doesn't seem to hapen, yet it happened on a
+		 * multitude of windows machines.
+		 */
+		// System.setProperty("prism.lcdtext", "false");
 
 		launch(args);
 	}
@@ -88,7 +95,8 @@ public class Main extends Application
 	/**
 	 * Returns a localized string.
 	 *
-	 * @param key the key for the string
+	 * @param key
+	 *            the key for the string
 	 * @return the String that represents the key for the specific language
 	 */
 	public static String getString(final String key)

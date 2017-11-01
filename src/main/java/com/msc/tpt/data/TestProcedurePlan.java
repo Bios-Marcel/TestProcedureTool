@@ -24,6 +24,7 @@ public class TestProcedurePlan
 	 * To be used for humans to identify the {@link TestProcedurePlan}.
 	 */
 	private String							name;
+	
 	/**
 	 * Contains all tests, whcih a tester has to / can execute.
 	 */

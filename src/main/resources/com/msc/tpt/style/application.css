@@ -3,7 +3,6 @@
 	-fx-font-family: FontAwesome;
 	-fx-alignment: center_left;
 	-fx-font-size: 2.5em;
-	-fx-pref-width: 40em;
 	-fx-border-width: 0.0;
 	-fx-background-color: white;
 }
@@ -53,7 +52,7 @@
  * Settings
  */
 
-.setting-pane
+.settings-background
 {
 	-fx-background-color: white;
 }

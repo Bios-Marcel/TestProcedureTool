@@ -13,8 +13,10 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
- * Creates a dialog containing a title, a header text and a textarea to be used for stack traces.
- * This class uses no dependencies besides the logger, to assure it can be used under almost all
+ * Creates a dialog containing a title, a header text and a textarea to be used
+ * for stack traces.
+ * This class uses no dependencies besides the logger, to assure it can be used
+ * under almost all
  * circumstances.
  *
  * @author Marcel
@@ -22,13 +24,16 @@ import javafx.stage.Stage;
  */
 public class UncaughtExceptionDialog
 {
-	private final Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+	private final Logger	logger	= Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
-	private final Stage stage;
+	private final Stage		stage;
 
-	@FXML private Label		titleLable;
-	@FXML private Label		headerTextLabel;
-	@FXML private TextArea	stackTraceTextArea;
+	@FXML
+	private Label			titleLable;
+	@FXML
+	private Label			headerTextLabel;
+	@FXML
+	private TextArea		stackTraceTextArea;
 
 	/**
 	 * Initializes the dialos stage, scene and view.
@@ -54,6 +59,19 @@ public class UncaughtExceptionDialog
 		}
 	}
 
+	@FXML
+	private void reportBug()
+	{
+		// TODO(MSC) Report Bug directly to GitHub Page; Find a service in order to do
+		// so or use a dummy account and rest.
+	}
+
+	@FXML
+	private void closeDialog()
+	{
+		stage.close();
+	}
+
 	/**
 	 * Fils the scrollable text error with text. Should be used for the stacktrace.
 	 *
@@ -66,7 +84,8 @@ public class UncaughtExceptionDialog
 	}
 
 	/**
-	 * Sets the header text of the exception dialog. The header text is right beneath the title.
+	 * Sets the header text of the exception dialog. The header text is right
+	 * beneath the title.
 	 *
 	 * @param text
 	 *            String to be set as the header text

@@ -4,18 +4,15 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+
+<StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main-background-panel" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main-background-panel" VBox.vgrow="ALWAYS">
+      <VBox fx:id="startPageVBox" alignment="CENTER_LEFT" fillWidth="false" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" spacing="5.0">
          <children>
-            <VBox alignment="CENTER_LEFT" fillWidth="false" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" spacing="5.0">
-               <children>
-                  <Button mnemonicParsing="false" styleClass="main-page-button" text="%new.procedureplan.button" onAction="#newTestProcedurePlan" />
-                  <Button mnemonicParsing="false" styleClass="main-page-button" text="%open.procedureplan.button" />
-                  <Button mnemonicParsing="false" styleClass="main-page-button" text="%open.lastprocedureplan.button" />
-               </children>
-            </VBox>
+            <Button minWidth="${startPageVBox.width}" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#newTestProcedurePlan" styleClass="main-page-button" text="%new.procedureplan.button" />
+            <Button minWidth="${startPageVBox.width}" mnemonicParsing="false" styleClass="main-page-button" text="%open.procedureplan.button" />
+            <Button minWidth="${startPageVBox.width}" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="main-page-button" text="%open.lastprocedureplan.button" />
          </children>
-      </StackPane>
+      </VBox>
    </children>
-</VBox>
+</StackPane>
