@@ -1,14 +1,18 @@
 package com.msc.tpt;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.msc.tpt.constants.PathConstants;
 import com.msc.tpt.logging.TPTLogger;
 import com.msc.tpt.logging.TPTUncaughtExceptionHandler;
+import com.msc.tpt.view.Settings;
 import com.msc.tpt.view.StartPageController;
 
 import javafx.application.Application;
@@ -26,9 +30,28 @@ import javafx.stage.Stage;
  */
 public class Main extends Application
 {
-	private static final Logger	logger	= Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+	private static final Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
-	static ResourceBundle		language;
+	public static Settings settingsInstance;
+
+	private static ResourceBundle language;
+
+	/**
+	 * @param args
+	 *            currently unused
+	 */
+	public static void main(final String[] args)
+	{
+		/*
+		 * Fixes font rendering TODO(MSC) See if this is the case on other machines
+		 * aswell.
+		 * On my Ubuntu Laptop, this doesn't seem to hapen, yet it happened on a
+		 * multitude of windows machines.
+		 */
+		// System.setProperty("prism.lcdtext", "false");
+
+		launch(args);
+	}
 
 	@Override
 	public void start(final Stage primaryStage)
@@ -39,20 +62,26 @@ public class Main extends Application
 		 * the things are executed within the try-catch phrase
 		 */
 
+		AppController.getInstance().setStage(primaryStage);
+		startApplication();
+	}
+
+	public static void startApplication()
+	{
 		try
 		{
 			new File(PathConstants.TPT_HOME).mkdir();
+			loadSettings();
 			TPTLogger.setup();
 			Thread.setDefaultUncaughtExceptionHandler(new TPTUncaughtExceptionHandler());
 
 			// Load language files
-			final Locale locale = new Locale("en"); // TODO Make this configurable
+			final Locale locale = settingsInstance.getLanguage();
 			language = ResourceBundle.getBundle(PathConstants.LANGUAGE, locale);
 
 			Font.loadFont(StartPageController.class.getResource(PathConstants.FONT_AWESOME).toExternalForm(), 12);
-			prepareStageAndScene(primaryStage);
+			prepareStageAndScene(AppController.getInstance().getPrimaryStage());
 
-			AppController.getInstance().setStage(primaryStage);
 			AppController.getInstance().start();
 		}
 		catch (final Exception exception)
@@ -67,7 +96,7 @@ public class Main extends Application
 	 * @param primaryStage
 	 *            stage to be configured
 	 */
-	private void prepareStageAndScene(final Stage primaryStage)
+	private static void prepareStageAndScene(final Stage primaryStage)
 	{
 		primaryStage.setScene(new Scene(new Pane()));
 		primaryStage.getIcons().add(new Image(Main.class.getResource(PathConstants.APP_ICON).toExternalForm()));
@@ -76,20 +105,37 @@ public class Main extends Application
 		primaryStage.setMinHeight(400);
 	}
 
-	/**
-	 * @param args
-	 *            currently unused
-	 */
-	public static void main(final String[] args)
+	public static void loadSettings() throws IOException
 	{
-		/*
-		 * Fixes font rendering TODO(MSC) See if this is the case on other machines
-		 * aswell. On my Ubuntu Laptop, this doesn't seem to hapen, yet it happened on a
-		 * multitude of windows machines.
-		 */
-		// System.setProperty("prism.lcdtext", "false");
+		final File configFile = new File(PathConstants.SETTINGS_FILE);
+		try
+		{
+			final ObjectMapper mapper = new ObjectMapper();
+			settingsInstance = mapper.readValue(configFile, Settings.class);
+		}
+		catch (@SuppressWarnings("unused") final FileNotFoundException exception)
+		{
+			settingsInstance = new Settings();
+			saveSettings();
+			loadSettings();
+		}
+		catch (final IOException exception)
+		{
+			logger.log(Level.SEVERE, "Error loading settings", exception);
+		}
+	}
 
-		launch(args);
+	public static void saveSettings()
+	{
+		try
+		{
+			final ObjectMapper mapper = new ObjectMapper();
+			mapper.writeValue(new File(PathConstants.SETTINGS_FILE), settingsInstance);
+		}
+		catch (final IOException exception)
+		{
+			logger.log(Level.SEVERE, "Error loading settings", exception);
+		}
 	}
 
 	/**
@@ -102,5 +148,10 @@ public class Main extends Application
 	public static String getString(final String key)
 	{
 		return language.getString(key);
+	}
+
+	public static ResourceBundle getLanguage()
+	{
+		return language;
 	}
 }

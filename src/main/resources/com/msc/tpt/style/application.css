@@ -9,17 +9,17 @@
 
 .main-page-button:hover
 {
-	-fx-background-color: lightblue;
+	-fx-background-color: #8DA0DC;
 }
 
 .main-page-button:armed
 {
-	-fx-background-color: #4355DF;
+	-fx-background-color: #5677E1;
 }
 
 .main-background-panel
 {
-	-fx-background-color: #504848;
+	-fx-background-color: #918787;
 }
 
 /**

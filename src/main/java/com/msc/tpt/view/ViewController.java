@@ -17,4 +17,9 @@ public interface ViewController
 	 * Called when the view is being closed.
 	 */
 	public void close();
+
+	/**
+	 * Executed after the fxmloader is done.
+	 */
+	public void pastInitialize();
 }

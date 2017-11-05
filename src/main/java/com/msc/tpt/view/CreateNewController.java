@@ -9,6 +9,7 @@ import com.msc.tpt.data.tablemodel.TestProcedurePlanTableModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
+import javafx.scene.input.KeyCode;
 
 public class CreateNewController implements ViewController
 {
@@ -26,14 +27,9 @@ public class CreateNewController implements ViewController
 
 		appController.setGlobalKeyListener(keyEvent ->
 		{
-			switch (keyEvent.getCode())
+			if (keyEvent.getCode() == KeyCode.F1)
 			{
-				case F1:
-					createNewStep();
-					break;
-				// $CASES-OMITTED$
-				default:
-					break;
+				createNewStep();
 			}
 		});
 
@@ -56,5 +52,11 @@ public class CreateNewController implements ViewController
 	public void close()
 	{
 		// TODO
+	}
+
+	@Override
+	public void pastInitialize()
+	{
+		// TODO Rethink this
 	}
 }

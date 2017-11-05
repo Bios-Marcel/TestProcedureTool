@@ -11,8 +11,9 @@ import java.io.File;
 @SuppressWarnings("javadoc")
 public class PathConstants
 {
-	public static final String	TPT_HOME	= System.getProperty("user.home") + File.separator + ".tpt";
-	public static final String	LOG_FILE	= TPT_HOME + File.separator + "Log.txt";
+	public static final String	TPT_HOME		= System.getProperty("user.home") + File.separator + ".tpt" + File.separator;
+	public static final String	SETTINGS_FILE	= TPT_HOME + "config.json";
+	public static final String	LOG_FILE		= TPT_HOME + "Log.txt";
 
 	public static final String	APP_ICON		= "/com/msc/tpt/icon/appicon.png";
 	public static final String	FONT_AWESOME	= "/com/msc/tpt/fonts/FontAwesome.otf";

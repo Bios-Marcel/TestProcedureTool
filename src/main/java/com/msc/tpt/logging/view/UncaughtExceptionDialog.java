@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.kohsuke.github.GitHub;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -24,16 +26,13 @@ import javafx.stage.Stage;
  */
 public class UncaughtExceptionDialog
 {
-	private final Logger	logger	= Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+	private final Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
-	private final Stage		stage;
+	private final Stage stage;
 
-	@FXML
-	private Label			titleLable;
-	@FXML
-	private Label			headerTextLabel;
-	@FXML
-	private TextArea		stackTraceTextArea;
+	@FXML private Label		titleLable;
+	@FXML private Label		headerTextLabel;
+	@FXML private TextArea	stackTraceTextArea;
 
 	/**
 	 * Initializes the dialos stage, scene and view.
@@ -62,8 +61,17 @@ public class UncaughtExceptionDialog
 	@FXML
 	private void reportBug()
 	{
-		// TODO(MSC) Report Bug directly to GitHub Page; Find a service in order to do
-		// so or use a dummy account and rest.
+		try
+		{
+			GitHub.connect("testproceduretool", "testproctool1")
+					.getRepository("Bios-Marcel/TestProcedureTool")
+					.createIssue("Automatically created issue: " + headerTextLabel.getText())
+					.body(stackTraceTextArea.getText()).create();
+		}
+		catch (final IOException exception)
+		{
+			logger.log(Level.SEVERE, "Error reporting bug on GitHub", exception);
+		}
 	}
 
 	@FXML

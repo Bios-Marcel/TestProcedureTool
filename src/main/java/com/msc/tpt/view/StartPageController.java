@@ -34,4 +34,10 @@ public class StartPageController implements ViewController
 	{
 		// TODO
 	}
+
+	@Override
+	public void pastInitialize()
+	{
+		// TODO Rethink this
+	}
 }

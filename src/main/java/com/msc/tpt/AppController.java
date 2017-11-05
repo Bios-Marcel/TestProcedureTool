@@ -1,12 +1,12 @@
 package com.msc.tpt;
 
 import java.io.IOException;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.msc.tpt.view.View;
+import com.msc.tpt.view.ViewController;
 
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -48,9 +48,12 @@ public final class AppController
 	@FXML private Label			titleLabel;
 	@FXML private ToggleButton	settingsButton;
 
+	/**
+	 * @return the Singleton instance of {@link AppController}
+	 */
 	public static AppController getInstance()
 	{
-		return Objects.requireNonNull(instance);
+		return instance;
 	}
 
 	/**
@@ -75,6 +78,11 @@ public final class AppController
 		primaryStage = stage;
 	}
 
+	public Stage getPrimaryStage()
+	{
+		return primaryStage;
+	}
+
 	/**
 	 * Initially launches the GUI.
 	 */
@@ -83,7 +91,7 @@ public final class AppController
 		logger.info("Loading view mainview.");
 
 		final FXMLLoader loader = new FXMLLoader();
-		loader.setResources(Main.language);
+		loader.setResources(Main.getLanguage());
 
 		try
 		{
@@ -96,7 +104,7 @@ public final class AppController
 
 			newTestProcedurePlanButton.setText("\uf0fe");
 			openTestProcedurePlanButton.setText("\uf07c");
-			saveTestProcedurePlanButton.setText("\uf0a0");
+			saveTestProcedurePlanButton.setText("\uf0c7");
 
 			settingsButton.setText("\uf013");
 
@@ -155,11 +163,12 @@ public final class AppController
 		logger.info("Retrieving view: '" + view + "'");
 
 		final FXMLLoader loader = new FXMLLoader();
-		loader.setResources(Main.language);
+		loader.setResources(Main.getLanguage());
 
 		try
 		{
-			loader.setController(view.getControllerType().newInstance());
+			final ViewController controller = view.getControllerType().newInstance();
+			loader.setController(controller);
 			loader.setLocation(AppController.class.getResource(view.getFXMLPath()));
 
 			final Pane toLoad = loader.load();
