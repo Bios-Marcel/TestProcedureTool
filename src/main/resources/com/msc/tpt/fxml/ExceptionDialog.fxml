@@ -12,13 +12,13 @@
    <children>
       <Label fx:id="titleLable" text="Exception occured" />
       <Label fx:id="headerTextLabel" />
-      <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+      <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="Infinity" maxWidth="Infinity" VBox.vgrow="ALWAYS">
          <content>
-            <TextArea fx:id="stackTraceTextArea" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+            <TextArea fx:id="stackTraceTextArea" editable="false" maxHeight="Infinity" maxWidth="Infinity" />
          </content>
       </ScrollPane>
       <Label text="%text.inordertohelp.reportbug" wrapText="true" />
-      <HBox alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" spacing="5.0">
+      <HBox alignment="CENTER_RIGHT" maxWidth="Infinity" spacing="5.0">
          <children>
             <Button mnemonicParsing="false" onAction="#reportBug" text="%button.reportbug" />
           <Button mnemonicParsing="false" onAction="#closeDialog" text="%general.button.close" />

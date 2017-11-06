@@ -8,18 +8,20 @@ package com.msc.tpt.view;
  */
 public interface ViewController
 {
-	/**
-	 * Automatically called when initializing the controller.
-	 */
-	public void initialize();
+  /**
+   * Automatically called when initializing the controller.
+   */
+  public void initialize();
 
-	/**
-	 * Called when the view is being closed.
-	 */
-	public void close();
+  /**
+   * Called when the view is being closed.
+   */
+  public void close();
 
-	/**
-	 * Executed after the fxmloader is done.
-	 */
-	public void pastInitialize();
+  /**
+   * FIXME(MSC) This shouldn't have to exist.
+   *
+   * Executed after the fxmloader is done.
+   */
+  public void pastInitialize();
 }

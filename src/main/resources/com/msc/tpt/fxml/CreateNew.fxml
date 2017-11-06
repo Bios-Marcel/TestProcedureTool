@@ -2,39 +2,34 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.cell.PropertyValueFactory?>
-<?import javafx.scene.control.cell.TextFieldTableCell?>
+<?import javafx.scene.control.TreeTableColumn?>
+<?import javafx.scene.control.TreeTableView?>
+<?import javafx.scene.control.cell.TreeItemPropertyValueFactory ?>
+<?import javafx.scene.control.cell.TextFieldTreeTableCell?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
-<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="Infinity" maxWidth="Infinity"
+	xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
 	<children>
-		<TableView fx:id="tableView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS" editable="true">
+		<TreeTableView fx:id="tableView" editable="true"
+			maxHeight="Infinity" maxWidth="Infinity" VBox.vgrow="ALWAYS">
 			<columns>
-				<TableColumn prefWidth="75.0" text="Name" editable="true">
+				<TreeTableColumn prefWidth="200.0" text="Name">
 					<cellFactory>
-						<TextFieldTableCell fx:factory="forTableColumn" />
+						<TextFieldTreeTableCell fx:factory="forTreeTableColumn" />
 					</cellFactory>
 					<cellValueFactory>
-						<PropertyValueFactory property="name" />
+						<TreeItemPropertyValueFactory
+							property="name" />
 					</cellValueFactory>
-				</TableColumn>
-				<TableColumn prefWidth="75.0" text="Procedure" editable="true">
-					<cellValueFactory>
-						<PropertyValueFactory property="procedure" />
-					</cellValueFactory>
-					<cellFactory>
-						<TextFieldTableCell fx:factory="forTableColumn" />
-					</cellFactory>
-				</TableColumn>
+				</TreeTableColumn>
 			</columns>
-		</TableView>
-		<HBox maxWidth="1.7976931348623157E308" spacing="5.0">
+		</TreeTableView>
+		<HBox maxWidth="Infinity" spacing="5.0">
 			<children>
-				<Button fx:id="newStepButton" mnemonicParsing="false" onAction="#createNewStep" styleClass="bottom-bar-button" text="New Step" />
+				<Button fx:id="newStepButton" mnemonicParsing="false"
+					onAction="#createNewStep" styleClass="bottom-bar-button" text="New Step" />
 			</children>
 			<padding>
 				<Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

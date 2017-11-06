@@ -6,11 +6,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Consumer;
+import java.util.logging.Logger;
 
+import com.msc.tpt.Main;
 import com.msc.tpt.fxutil.FXUtil;
+import com.msc.tpt.settings.SettingsPage;
 import com.msc.tpt.view.ViewController;
 
-import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -25,123 +27,128 @@ import javafx.scene.layout.StackPane;
 
 public class SettingsController implements ViewController
 {
-	@FXML private ListView<Node>	settingPageListView;
-	@FXML private StackPane			settingPageContainer;
-	@FXML private TextField			settingFilterTextField;
+  private static final Logger logger = Logger.getLogger( Logger.GLOBAL_LOGGER_NAME );
 
-	private final Map<Node, List<String>> searchWords = new HashMap<>();
+  @FXML
+  private ListView<SettingsPage> settingPageListView;
+  @FXML
+  private StackPane              settingPageContainer;
+  @FXML
+  private TextField              settingFilterTextField;
 
-	@FXML private Label titleLabel;
+  private final Map<Node, List<String>> searchWords = new HashMap<>();
 
-	private final ObservableList<Node>	nodes			= FXCollections.observableArrayList();
-	private final FilteredList<Node>	filteredNodes	= new FilteredList<>(nodes);
+  @FXML
+  private Label titleLabel;
 
-	@Override
-	public void initialize()
-	{
-		System.out.println("Initializing");
+  private final ObservableList<SettingsPage> nodes         = FXCollections.observableArrayList();
+  private final FilteredList<SettingsPage>   filteredNodes = new FilteredList<>( nodes );
 
-		settingFilterTextField.textProperty().addListener((observable, oldValue, newValue) ->
-		{
-			filteredNodes.predicateProperty().set(node ->
-			{
-				final String searchTerm = newValue.replaceAll("\\s", "");
-				if (searchTerm.isEmpty())
-				{
-					return true;
-				}
+  @Override
+  public void initialize()
+  {
+    logger.info( "Initializing Settingscontroller" );
 
-				final List<String> filterWords = searchWords.get(node);
+    settingFilterTextField.textProperty().addListener( ( observable, oldValue, newValue ) ->
+    {
+      filteredNodes.predicateProperty().set( node ->
+      {
+        final String searchTerm = newValue.replaceAll( "\\s", "" );
+        if ( searchTerm.isEmpty() )
+        {
+          return true;
+        }
 
-				for (final String word : filterWords)
-				{
-					if (word.toLowerCase().contains(searchTerm))
-					{
-						return true;
-					}
-				}
+        final List<String> filterWords = searchWords.get( node.getPageNode() );
 
-				return false;
-			});
-		});
+        for ( final String word : filterWords )
+        {
+          if ( word.toLowerCase().contains( searchTerm ) )
+          {
+            return true;
+          }
+        }
 
-		settingPageListView.setCellFactory(param -> new ListCell<Node>() {
-			@Override
-			protected void updateItem(final Node item, final boolean empty)
-			{
-				super.updateItem(item, empty);
+        return false;
+      } );
+    } );
 
-				if (Objects.nonNull(item))
-				{
-					setText(((SettingsGeneralController) item.getUserData()).getTitle());
-				}
-				else
-				{
-					setText("");
-				}
-			}
-		});
+    settingPageListView.setCellFactory( param -> new ListCell<SettingsPage>()
+    {
+      @Override
+      protected void updateItem( final SettingsPage item, final boolean empty )
+      {
+        super.updateItem( item, empty );
 
-		Bindings.bindContent(settingPageContainer.getChildren(), nodes);
+        if ( Objects.nonNull( item ) )
+        {
+          setText( item.getTitle() );
+        }
+        else
+        {
+          setText( "" );
+        }
+      }
+    } );
 
-		settingPageListView.setItems(filteredNodes);
-		settingPageListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->
-		{
-			if (Objects.nonNull(newValue))
-			{
-				titleLabel.setText(((SettingsGeneralController) newValue.getUserData()).getTitle());
-				newValue.toFront();
-			}
-		});
+    settingPageListView.setItems( filteredNodes );
+    settingPageListView.getSelectionModel().selectedItemProperty().addListener( ( observable, oldValue, newValue ) ->
+    {
+      if ( Objects.nonNull( newValue ) )
+      {
+        titleLabel.setText( newValue.getTitle() );
+        settingPageContainer.getChildren().setAll( newValue.getPageNode() );
+      }
+    } );
 
-		final Pane generalPane = loadPane(new SettingsGeneralController(), "/com/msc/tpt/fxml/SettingsGeneral.fxml");
-		nodes.add(generalPane);
-		settingPageListView.getSelectionModel().select(0);
-	}
+    final Pane generalPane = loadPane( new SettingsGeneralController(), "/com/msc/tpt/fxml/SettingsGeneral.fxml" );
+    nodes.add( new SettingsPage( generalPane, Main.getString( "settings.page.general.title" ) ) );
 
-	@Override
-	public void pastInitialize()
-	{
-		nodes.forEach(node ->
-		{
-			final String pageTitle = ((SettingsGeneralController) node.getUserData()).getTitle();
+    final Pane updatePane = loadPane( new SettingsUpdatesController(), "/com/msc/tpt/fxml/SettingsUpdates.fxml" );
+    nodes.add( new SettingsPage( updatePane, Main.getString( "settings.page.updates.title" ) ) );
 
-			final List<String> words = new ArrayList<>();
-			addToSearchWords(node, words::add);
-			words.add(pageTitle);
-			searchWords.put(node, words);
-		});
-	}
+    settingPageListView.getSelectionModel().select( 0 );
+  }
 
-	private static void addToSearchWords(final Node node, final Consumer<String> consumer)
-	{
-		if (node instanceof Pane)
-		{
-			final Pane parent = (Pane) node;
-			for (final Node child : parent.getChildrenUnmodifiable())
-			{
-				addToSearchWords(child, consumer);
-			}
-		}
-		else if (node instanceof Label)
-		{
-			final Label label = (Label) node;
-			final String adding = label.getText();
-			consumer.accept(adding);
-		}
-	}
+  @Override
+  public void pastInitialize()
+  {
+    nodes.forEach( page ->
+    {
+      final List<String> words = new ArrayList<>();
+      final Node node = page.getPageNode();
+      addToSearchWords( node, words::add );
+      words.add( page.getTitle() );
+      searchWords.put( node, words );
+    } );
+  }
 
-	private Pane loadPane(final SettingsPageViewController controller, final String fxmlLocation)
-	{
-		final Pane pane = FXUtil.loadFXML(controller, SettingsController.class.getResource(fxmlLocation));
-		pane.setUserData(controller);
-		return pane;
-	}
+  private static void addToSearchWords( final Node node, final Consumer<String> consumer )
+  {
+    if ( node instanceof Pane )
+    {
+      final Pane parent = (Pane) node;
+      for ( final Node child : parent.getChildrenUnmodifiable() )
+      {
+        addToSearchWords( child, consumer );
+      }
+    }
+    else if ( node instanceof Label )
+    {
+      final Label label = (Label) node;
+      final String adding = label.getText();
+      consumer.accept( adding );
+    }
+  }
 
-	@Override
-	public void close()
-	{
-		// Do smth
-	}
+  private static Pane loadPane( final ViewController controller, final String fxmlLocation )
+  {
+    return FXUtil.loadFXML( controller, SettingsController.class.getResource( fxmlLocation ) );
+  }
 
+  @Override
+  public void close()
+  {
+    //TODO Do something?
+  }
 }

@@ -29,171 +29,182 @@ import javafx.stage.Stage;
  */
 public final class AppController
 {
-	private static final Logger			logger		= Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-	private static final AppController	instance	= new AppController();
-	private Stage						primaryStage;
+  private static final Logger        logger   = Logger.getLogger( Logger.GLOBAL_LOGGER_NAME );
+  private static final AppController instance = new AppController();
+  private Stage                      primaryStage;
 
-	@FXML private String lastTitle;
+  @FXML
+  private String lastTitle;
 
-	@FXML private Optional<Pane>	currentView	= Optional.empty();
-	@FXML private Pane				settingsPane;
-	@FXML private Pane				homePane;
+  @FXML
+  private Optional<Pane> currentView = Optional.empty();
+  @FXML
+  private Pane           settingsPane;
+  @FXML
+  private Pane           homePane;
 
-	@FXML private StackPane contentPane;
+  @FXML
+  private StackPane contentPane;
 
-	@FXML private Button		newTestProcedurePlanButton;
-	@FXML private MenuButton	openTestProcedurePlanButton;
-	@FXML private MenuButton	saveTestProcedurePlanButton;
+  @FXML
+  private Button     newTestProcedurePlanButton;
+  @FXML
+  private MenuButton openTestProcedurePlanButton;
+  @FXML
+  private MenuButton saveTestProcedurePlanButton;
 
-	@FXML private Label			titleLabel;
-	@FXML private ToggleButton	settingsButton;
+  @FXML
+  private Label        titleLabel;
+  @FXML
+  private ToggleButton settingsButton;
 
-	/**
-	 * @return the Singleton instance of {@link AppController}
-	 */
-	public static AppController getInstance()
-	{
-		return instance;
-	}
+  /**
+   * @return the Singleton instance of {@link AppController}
+   */
+  public static AppController getInstance()
+  {
+    return instance;
+  }
 
-	/**
-	 * Sets the scenes {@link EventHandler} for {@link KeyEvent}, resulting in the former
-	 * {@link EventHandler} to be removed.
-	 *
-	 * @param keyEventHandler the new handler
-	 */
-	public void setGlobalKeyListener(final EventHandler<KeyEvent> keyEventHandler)
-	{
-		primaryStage.getScene().setOnKeyPressed(keyEventHandler);
-	}
+  /**
+   * Sets the scenes {@link EventHandler} for {@link KeyEvent}, resulting in the former
+   * {@link EventHandler} to be removed.
+   *
+   * @param keyEventHandler the new handler
+   */
+  public void setGlobalKeyListener( final EventHandler<KeyEvent> keyEventHandler )
+  {
+    primaryStage.getScene().setOnKeyPressed( keyEventHandler );
+  }
 
-	/**
-	 * Sets the primary state for furhter interaction.
-	 *
-	 * @param stage
-	 *            {@link Stage} that will be set
-	 */
-	public final void setStage(final Stage stage)
-	{
-		primaryStage = stage;
-	}
+  /**
+   * Sets the primary state for furhter interaction.
+   *
+   * @param stage
+   *          {@link Stage} that will be set
+   */
+  public final void setStage( final Stage stage )
+  {
+    primaryStage = stage;
+  }
 
-	public Stage getPrimaryStage()
-	{
-		return primaryStage;
-	}
+  public Stage getPrimaryStage()
+  {
+    return primaryStage;
+  }
 
-	/**
-	 * Initially launches the GUI.
-	 */
-	public final void start()
-	{
-		logger.info("Loading view mainview.");
+  /**
+   * Initially launches the GUI.
+   */
+  public final void start()
+  {
+    logger.info( "Loading view mainview." );
 
-		final FXMLLoader loader = new FXMLLoader();
-		loader.setResources(Main.getLanguage());
+    final FXMLLoader loader = new FXMLLoader();
+    loader.setResources( Main.getLanguage() );
 
-		try
-		{
-			loader.setController(this);
-			loader.setLocation(AppController.class.getResource("/com/msc/tpt/fxml/Main.fxml"));
+    try
+    {
+      loader.setController( this );
+      loader.setLocation( AppController.class.getResource( "/com/msc/tpt/fxml/Main.fxml" ) );
 
-			final Parent toLoad = loader.load();
-			toLoad.getStylesheets().setAll("/com/msc/tpt/style/application.css");
-			primaryStage.getScene().setRoot(toLoad);
+      final Parent toLoad = loader.load();
+      toLoad.getStylesheets().setAll( "/com/msc/tpt/style/application.css" );
+      primaryStage.getScene().setRoot( toLoad );
 
-			newTestProcedurePlanButton.setText("\uf0fe");
-			openTestProcedurePlanButton.setText("\uf07c");
-			saveTestProcedurePlanButton.setText("\uf0c7");
+      newTestProcedurePlanButton.setText( "\uf0fe" );
+      openTestProcedurePlanButton.setText( "\uf07c" );
+      saveTestProcedurePlanButton.setText( "\uf0c7" );
 
-			settingsButton.setText("\uf013");
+      settingsButton.setText( "\uf013" );
 
-			setTitle(Main.getString("main.title"));
-		}
-		catch (final IOException exception)
-		{
-			logger.log(Level.SEVERE, "Error while loading mainview.", exception);
-		}
+      setTitle( Main.getString( "main.title" ) );
+    }
+    catch ( final IOException exception )
+    {
+      logger.log( Level.SEVERE, "Error while loading mainview.", exception );
+    }
 
-		homePane = getView(View.HOME);
-		settingsPane = getView(View.SETTINGS);
+    homePane = getView( View.HOME );
+    settingsPane = getView( View.SETTINGS );
 
-		settingsButton.selectedProperty().addListener((observable, oldVal, newVal) -> showSettings(newVal));
+    settingsButton.selectedProperty().addListener( ( observable, oldVal, newVal ) -> showSettings( newVal ) );
 
-		contentPane.getChildren().add(settingsPane);
-		contentPane.getChildren().add(homePane);
+    contentPane.getChildren().add( settingsPane );
+    contentPane.getChildren().add( homePane );
 
-		primaryStage.show();
-	}
+    primaryStage.show();
+  }
 
-	/**
-	 * Sets the title in the top bar.
-	 *
-	 * @param title
-	 */
-	public void setTitle(final String title)
-	{
-		lastTitle = titleLabel.getText();
-		titleLabel.setText(title);
-	}
+  /**
+   * Sets the title in the top bar.
+   *
+   * @param title
+   */
+  public void setTitle( final String title )
+  {
+    lastTitle = titleLabel.getText();
+    titleLabel.setText( title );
+  }
 
-	/**
-	 * Loads a view in the current {@link #primaryStage Stage}.
-	 *
-	 * @param view
-	 *            the view to be loaded
-	 */
-	public void loadView(final View view)
-	{
-		logger.info("Loading view: '" + view + "'");
+  /**
+   * Loads a view in the current {@link #primaryStage Stage}.
+   *
+   * @param view
+   *          the view to be loaded
+   */
+  public void loadView( final View view )
+  {
+    logger.info( "Loading view: '" + view + "'" );
 
-		currentView.ifPresent(viewToRemove -> contentPane.getChildren().remove(viewToRemove));
-		currentView = Optional.of(getView(view));
-		currentView.ifPresent(viewToAdd ->
-		{
-			contentPane.getChildren().add(viewToAdd);
-			settingsButton.setDisable(false);
-			settingsButton.setSelected(false);
-		});
+    currentView.ifPresent( viewToRemove -> contentPane.getChildren().remove( viewToRemove ) );
+    currentView = Optional.of( getView( view ) );
+    currentView.ifPresent( viewToAdd ->
+    {
+      contentPane.getChildren().add( viewToAdd );
+      settingsButton.setDisable( false );
+      settingsButton.setSelected( false );
+    } );
 
-	}
+  }
 
-	private Pane getView(final View view)
-	{
-		logger.info("Retrieving view: '" + view + "'");
+  private Pane getView( final View view )
+  {
+    logger.info( "Retrieving view: '" + view + "'" );
 
-		final FXMLLoader loader = new FXMLLoader();
-		loader.setResources(Main.getLanguage());
+    final FXMLLoader loader = new FXMLLoader();
+    loader.setResources( Main.getLanguage() );
 
-		try
-		{
-			final ViewController controller = view.getControllerType().newInstance();
-			loader.setController(controller);
-			loader.setLocation(AppController.class.getResource(view.getFXMLPath()));
+    try
+    {
+      final ViewController controller = view.getControllerType().newInstance();
+      loader.setController( controller );
+      loader.setLocation( AppController.class.getResource( view.getFXMLPath() ) );
 
-			final Pane toLoad = loader.load();
-			toLoad.getStylesheets().setAll(view.getStylesheetPath());
-			return toLoad;
-		}
-		catch (final IOException | InstantiationException | IllegalAccessException exception)
-		{
-			logger.log(Level.SEVERE, "Error while loading view: '" + view + "'", exception);
-			throw new RuntimeException(exception);
-		}
-	}
+      final Pane toLoad = loader.load();
+      toLoad.getStylesheets().setAll( view.getStylesheetPath() );
+      controller.pastInitialize();
+      return toLoad;
+    }
+    catch ( final IOException | InstantiationException | IllegalAccessException exception )
+    {
+      logger.log( Level.SEVERE, "Error while loading view: '" + view + "'", exception );
+      throw new RuntimeException( exception );
+    }
+  }
 
-	private void showSettings(final boolean show)
-	{
-		if (show)
-		{
-			settingsPane.toFront();
-			setTitle(Main.getString("settings.title"));
-		}
-		else
-		{
-			settingsPane.toBack();
-			currentView.ifPresent(Pane::toFront);
-			setTitle(lastTitle);
-		}
-	}
+  private void showSettings( final boolean show )
+  {
+    if ( show )
+    {
+      settingsPane.toFront();
+      setTitle( Main.getString( "settings.title" ) );
+    }
+    else
+    {
+      settingsPane.toBack();
+      currentView.ifPresent( Pane::toFront );
+      setTitle( lastTitle );
+    }
+  }
 }

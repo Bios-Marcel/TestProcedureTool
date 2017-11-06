@@ -5,13 +5,13 @@
 <?import javafx.scene.layout.VBox?>
 
 
-<StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main-background-panel" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane maxHeight="Infinity" maxWidth="Infinity" styleClass="main-background-panel" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <VBox fx:id="startPageVBox" alignment="CENTER_LEFT" fillWidth="false" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" spacing="5.0">
+      <VBox fx:id="startPageVBox" alignment="CENTER_LEFT" fillWidth="false" maxHeight="Infinity" maxWidth="-Infinity" spacing="5.0">
          <children>
-            <Button minWidth="${startPageVBox.width}" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#newTestProcedurePlan" styleClass="main-page-button" text="%new.procedureplan.button" />
+            <Button minWidth="${startPageVBox.width}" maxWidth="Infinity" mnemonicParsing="false" onAction="#newTestProcedurePlan" styleClass="main-page-button" text="%new.procedureplan.button" />
             <Button minWidth="${startPageVBox.width}" mnemonicParsing="false" styleClass="main-page-button" text="%open.procedureplan.button" />
-            <Button minWidth="${startPageVBox.width}" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="main-page-button" text="%open.lastprocedureplan.button" />
+            <Button minWidth="${startPageVBox.width}" maxWidth="Infinity" mnemonicParsing="false" styleClass="main-page-button" text="%open.lastprocedureplan.button" />
          </children>
       </VBox>
    </children>
