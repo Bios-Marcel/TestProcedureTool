@@ -1,4 +1,4 @@
-package com.msc.tpt.view;
+package com.msc.tpt.view.settings;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,6 +8,7 @@ import java.util.Objects;
 import java.util.function.Consumer;
 
 import com.msc.tpt.fxutil.FXUtil;
+import com.msc.tpt.view.ViewController;
 
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;

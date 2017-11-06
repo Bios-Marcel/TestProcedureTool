@@ -12,7 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.msc.tpt.constants.PathConstants;
 import com.msc.tpt.logging.TPTLogger;
 import com.msc.tpt.logging.TPTUncaughtExceptionHandler;
-import com.msc.tpt.view.Settings;
+import com.msc.tpt.settings.Settings;
 import com.msc.tpt.view.StartPageController;
 
 import javafx.application.Application;

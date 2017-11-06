@@ -1,4 +1,6 @@
-package com.msc.tpt.view;
+package com.msc.tpt.view.settings;
+
+import com.msc.tpt.view.ViewController;
 
 /**
  * Contains methods for the {@link SettingsController} to communicate with its pages.

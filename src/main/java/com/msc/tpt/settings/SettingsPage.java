@@ -1,4 +1,4 @@
-package com.msc.tpt.view;
+package com.msc.tpt.settings;
 
 import javafx.scene.Node;
 

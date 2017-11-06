@@ -1,4 +1,4 @@
-package com.msc.tpt.view;
+package com.msc.tpt.view.settings;
 
 import java.util.Arrays;
 import java.util.List;

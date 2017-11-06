@@ -3,6 +3,8 @@ package com.msc.tpt.view;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.msc.tpt.view.settings.SettingsController;
+
 /**
  * Holds all the important information related to every single view.
  *
