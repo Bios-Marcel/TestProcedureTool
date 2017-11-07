@@ -3,11 +3,11 @@
 	-fx-font-family: FontAwesome;
 	-fx-alignment: center_left;
 	-fx-font-size: 2.5em;
-	-fx-border-width: 0.0;
-	-fx-background-color: white;
+	/*-fx-border-width: 0.0;
+	-fx-background-color: white;*/
 }
 
-.main-page-button:hover
+/*.main-page-button:hover
 {
 	-fx-background-color: #8DA0DC;
 }
@@ -15,7 +15,7 @@
 .main-page-button:armed
 {
 	-fx-background-color: #5677E1;
-}
+}*/
 
 .main-background-panel
 {

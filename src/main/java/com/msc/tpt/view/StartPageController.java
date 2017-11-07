@@ -26,7 +26,7 @@ public class StartPageController implements ViewController
 	private void newTestProcedurePlan()
 	{
 		final AppController appController = AppController.getInstance();
-		appController.loadView(View.CREATE_NEW);
+		appController.loadView(View.EDIT_PLAN);
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.msc.tpt.data.tablemodel.TestProcedurePlanTableModel;
 
 public class TestProcedureStep
 {
@@ -13,9 +14,11 @@ public class TestProcedureStep
    * {@link TestProcedureResult} belongs to.
    */
   @JsonIgnore
-  private final String uuid;
-  private String       name;
-
+  private final String                  uuid;
+  /**
+   * The name, which is used to enable humans to be able to recognize a test.
+   */
+  private String                        name;
   /**
    * Contains all substeps.
    */
@@ -26,21 +29,30 @@ public class TestProcedureStep
     this.uuid = uuid;
   }
 
+  /**
+   * @return the uuid
+   */
   public String getUuid()
   {
     return uuid;
   }
 
+  /**
+   * @return the name
+   */
   public String getName()
   {
     return name;
   }
 
+
+  /**
+   * @param name the name to set
+   */
   public void setName( final String name )
   {
     this.name = name;
   }
-
 
   /**
    * Adds a {@link TestProcedureStep substep} to the existing {@link TestProcedureStep}.
@@ -59,4 +71,13 @@ public class TestProcedureStep
   {
     return subSteps;
   }
+
+  public TestProcedurePlanTableModel toModel()
+  {
+    final TestProcedurePlanTableModel model = new TestProcedurePlanTableModel();
+    model.nameProperty().set( getName() );
+    model.nameProperty().set( getName() );
+    return model;
+  }
+
 }
